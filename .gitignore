@@ -1,0 +1,5 @@
+ai-helpers/
+gemini-ai-helpers/
+__pycache__/
+*.pyc
+.claude/
