@@ -499,10 +499,35 @@ def main():
         ext_data = json.load(f)
         current_version = ext_data.get('version', '1.0.0')
 
-    # Parse semantic version and bump MINOR (e.g., 1.0.0 -> 1.1.0)
+    # Parse semantic version and compute next version:
+    #   - patch +1 each daily migration; at 10 → minor +1, patch resets to 0
+    #   - minor at 10 → major +1, minor and patch reset to 0
+    #   - if last migration was ≥14 days ago → minor +1, patch resets to 0
     parts = current_version.split('.')
     major, minor, patch = int(parts[0]), int(parts[1]), int(parts[2])
-    new_version = f"{major}.{minor + 1}.{patch}"
+
+    last_migration_str = state.state.get('last_migration')
+    gap_days = 0
+    if last_migration_str:
+        last_dt = datetime.fromisoformat(last_migration_str)
+        gap_days = (datetime.now() - last_dt).days
+
+    if gap_days >= 14:
+        # Long gap — bump minor
+        minor += 1
+        patch = 0
+        print(f"⏱️  {gap_days} days since last migration — bumping minor version")
+    else:
+        # Normal daily bump — increment patch, carry over at 10
+        patch += 1
+        if patch >= 10:
+            patch = 0
+            minor += 1
+        if minor >= 10:
+            minor = 0
+            major += 1
+
+    new_version = f"{major}.{minor}.{patch}"
 
     # Get ai-helpers commit hash for traceability
     result = subprocess.run(
