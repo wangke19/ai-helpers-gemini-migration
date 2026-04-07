@@ -16,12 +16,20 @@ COMMANDS_DIR = pathlib.Path("gemini-ai-helpers/commands")
 TOML_PARSER = "/usr/local/lib/node_modules/@google/gemini-cli/node_modules/@iarna/toml"
 
 
-def validate_with_node():
+def validate_with_node(plugin_name=None):
     """Validate using the exact same TOML parser Gemini CLI uses."""
-    toml_files = sorted(COMMANDS_DIR.rglob("*.toml"))
+    if plugin_name:
+        plugin_dir = COMMANDS_DIR / plugin_name
+        if not plugin_dir.exists():
+            print(f"No commands directory for plugin: {plugin_name}")
+            return 0
+        toml_files = sorted(plugin_dir.glob("*.toml"))
+    else:
+        toml_files = sorted(COMMANDS_DIR.rglob("*.toml"))
+
     if not toml_files:
-        print("No .toml files found in", COMMANDS_DIR)
-        sys.exit(1)
+        print("No .toml files found")
+        return 0
 
     # Build a node script that parses every file and reports errors
     files_json = "[" + ",".join(f'"{f}"' for f in toml_files) + "]"
@@ -57,7 +65,7 @@ process.exit(fail > 0 ? 1 : 0);
     return result.returncode
 
 
-def validate_with_python():
+def validate_with_python(plugin_name=None):
     """Fallback: validate using Python's tomllib (Python 3.11+) or tomli."""
     try:
         import tomllib
@@ -69,7 +77,15 @@ def validate_with_python():
             print("Install tomli: pip install tomli")
             return 1
 
-    toml_files = sorted(COMMANDS_DIR.rglob("*.toml"))
+    if plugin_name:
+        plugin_dir = COMMANDS_DIR / plugin_name
+        if not plugin_dir.exists():
+            print(f"No commands directory for plugin: {plugin_name}")
+            return 0
+        toml_files = sorted(plugin_dir.glob("*.toml"))
+    else:
+        toml_files = sorted(COMMANDS_DIR.rglob("*.toml"))
+
     ok, fail = 0, 0
     for f in toml_files:
         try:
@@ -87,9 +103,18 @@ def validate_with_python():
 
 
 if __name__ == "__main__":
-    # Try node (exact Gemini CLI parser) first, fall back to Python
+    plugin_name = sys.argv[1] if len(sys.argv) > 1 else None
+
+    # Check if node AND the toml module are both available
     try:
         subprocess.run(["node", "--version"], capture_output=True, check=True)
-        sys.exit(validate_with_node())
+        probe = subprocess.run(
+            ["node", "-e", f"require('{TOML_PARSER}')"],
+            capture_output=True, text=True
+        )
+        if probe.returncode == 0:
+            sys.exit(validate_with_node(plugin_name))
+        else:
+            sys.exit(validate_with_python(plugin_name))
     except (subprocess.CalledProcessError, FileNotFoundError):
-        sys.exit(validate_with_python())
+        sys.exit(validate_with_python(plugin_name))

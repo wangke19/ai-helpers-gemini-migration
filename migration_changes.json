@@ -1,0 +1,22 @@
+{
+  "new_plugins": [],
+  "updated_plugins": [
+    "ci",
+    "ote-migration"
+  ],
+  "unchanged_plugins": [
+    "compliance",
+    "gwapi",
+    "hcp",
+    "node-tuning"
+  ],
+  "removed_plugins": [
+    "macos-notifications"
+  ],
+  "source_total": 34,
+  "target_total": 35,
+  "needs_migration": [
+    "ci",
+    "ote-migration"
+  ]
+}

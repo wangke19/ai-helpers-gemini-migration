@@ -61,7 +61,8 @@ def migrate():
 
         if os.path.exists(dst_dir):
             shutil.rmtree(dst_dir)
-        shutil.copytree(src_dir, dst_dir)
+        shutil.copytree(src_dir, dst_dir,
+                        ignore=shutil.ignore_patterns('.claude-plugin'))
 
         # 转换流程
         convert_plugin(src_dir, dst_dir)

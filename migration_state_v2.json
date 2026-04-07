@@ -1,0 +1,428 @@
+{
+  "version": "2.2",
+  "last_migration": "2026-04-03T19:37:00.425550",
+  "last_tag": "v1.2.0-728393c",
+  "migrations": [
+    {
+      "plugin": "agendas",
+      "timestamp": "2026-04-02T17:04:45.998720",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "bigquery",
+      "timestamp": "2026-04-02T17:04:46.961989",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ci",
+      "timestamp": "2026-04-02T17:04:48.281701",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "code-review",
+      "timestamp": "2026-04-02T17:04:49.291806",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "container-image",
+      "timestamp": "2026-04-02T17:04:50.337467",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "doc",
+      "timestamp": "2026-04-02T17:04:51.107668",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "etcd",
+      "timestamp": "2026-04-02T17:04:51.907843",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "git",
+      "timestamp": "2026-04-02T17:04:53.007305",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "golang",
+      "timestamp": "2026-04-02T17:04:53.798765",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "hello-world",
+      "timestamp": "2026-04-02T17:04:54.404622",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "jira",
+      "timestamp": "2026-04-02T17:04:55.271293",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "lvms",
+      "timestamp": "2026-04-02T17:04:56.005523",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "metrics",
+      "timestamp": "2026-04-02T17:04:56.428889",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "must-gather",
+      "timestamp": "2026-04-02T17:04:56.918794",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "native-notifications",
+      "timestamp": "2026-04-02T17:04:57.356693",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "node",
+      "timestamp": "2026-04-02T17:04:57.820216",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "olm",
+      "timestamp": "2026-04-02T17:04:58.564340",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "olm-team",
+      "timestamp": "2026-04-02T17:04:59.276657",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "openshift",
+      "timestamp": "2026-04-02T17:05:00.050458",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "openshift-tls-profile",
+      "timestamp": "2026-04-02T17:05:00.769232",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "origin",
+      "timestamp": "2026-04-02T17:05:01.487291",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ote-migration",
+      "timestamp": "2026-04-02T17:05:02.307182",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "session",
+      "timestamp": "2026-04-02T17:05:02.946960",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "sosreport",
+      "timestamp": "2026-04-02T17:05:03.632791",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "teams",
+      "timestamp": "2026-04-02T17:05:04.441015",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "test-coverage",
+      "timestamp": "2026-04-02T17:05:05.163469",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "testing",
+      "timestamp": "2026-04-02T17:05:05.852218",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "utils",
+      "timestamp": "2026-04-02T17:05:06.549882",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "workspaces",
+      "timestamp": "2026-04-02T17:05:07.264891",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "yaml",
+      "timestamp": "2026-04-02T17:05:07.938846",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "agendas",
+      "timestamp": "2026-04-02T17:27:41.547869",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "bigquery",
+      "timestamp": "2026-04-02T17:27:42.427473",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ci",
+      "timestamp": "2026-04-02T17:27:43.471429",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "code-review",
+      "timestamp": "2026-04-02T17:27:44.484552",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "container-image",
+      "timestamp": "2026-04-02T17:27:45.265083",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "doc",
+      "timestamp": "2026-04-02T17:27:45.934622",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "etcd",
+      "timestamp": "2026-04-02T17:27:46.645166",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "git",
+      "timestamp": "2026-04-02T17:27:47.373002",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "golang",
+      "timestamp": "2026-04-02T17:27:48.220022",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "hello-world",
+      "timestamp": "2026-04-02T17:27:48.873507",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "jira",
+      "timestamp": "2026-04-02T17:27:49.837812",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "lvms",
+      "timestamp": "2026-04-02T17:27:50.633107",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "metrics",
+      "timestamp": "2026-04-02T17:27:51.090176",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "must-gather",
+      "timestamp": "2026-04-02T17:27:51.571305",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "native-notifications",
+      "timestamp": "2026-04-02T17:27:52.021921",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "node",
+      "timestamp": "2026-04-02T17:27:52.454826",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "olm",
+      "timestamp": "2026-04-02T17:27:53.199076",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "olm-team",
+      "timestamp": "2026-04-02T17:27:53.946209",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "openshift",
+      "timestamp": "2026-04-02T17:27:54.742685",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "openshift-tls-profile",
+      "timestamp": "2026-04-02T17:27:55.440357",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "origin",
+      "timestamp": "2026-04-02T17:27:56.088205",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ote-migration",
+      "timestamp": "2026-04-02T17:27:56.767262",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "session",
+      "timestamp": "2026-04-02T17:27:57.404892",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "sosreport",
+      "timestamp": "2026-04-02T17:27:58.128838",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "teams",
+      "timestamp": "2026-04-02T17:27:59.152735",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "test-coverage",
+      "timestamp": "2026-04-02T17:28:00.000787",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "testing",
+      "timestamp": "2026-04-02T17:28:00.940876",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "utils",
+      "timestamp": "2026-04-02T17:28:01.888467",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "workspaces",
+      "timestamp": "2026-04-02T17:28:02.737214",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "yaml",
+      "timestamp": "2026-04-02T17:28:03.457631",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ci",
+      "timestamp": "2026-04-03T19:13:06.551730",
+      "status": "failed",
+      "details": {
+        "reason": "toml_validation_failed"
+      }
+    },
+    {
+      "plugin": "ote-migration",
+      "timestamp": "2026-04-03T19:13:06.776340",
+      "status": "failed",
+      "details": {
+        "reason": "toml_validation_failed"
+      }
+    },
+    {
+      "plugin": "ci",
+      "timestamp": "2026-04-03T19:36:59.933978",
+      "status": "success",
+      "details": {}
+    },
+    {
+      "plugin": "ote-migration",
+      "timestamp": "2026-04-03T19:37:00.425529",
+      "status": "success",
+      "details": {}
+    }
+  ],
+  "completed_plugins": [
+    "agendas",
+    "bigquery",
+    "ci",
+    "code-review",
+    "container-image",
+    "doc",
+    "etcd",
+    "git",
+    "golang",
+    "hello-world",
+    "jira",
+    "lvms",
+    "metrics",
+    "must-gather",
+    "native-notifications",
+    "node",
+    "olm",
+    "olm-team",
+    "openshift",
+    "openshift-tls-profile",
+    "origin",
+    "ote-migration",
+    "session",
+    "sosreport",
+    "teams",
+    "test-coverage",
+    "testing",
+    "utils",
+    "workspaces",
+    "yaml"
+  ],
+  "failed_plugins": []
+}

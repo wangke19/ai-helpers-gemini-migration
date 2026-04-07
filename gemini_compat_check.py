@@ -76,7 +76,17 @@ def run_check(extension_dir):
     else:
         print("  ✅ Code & Prompt are clean! Fully compatible with Gemini ecosystem.")
 
-# 测试桩 (可选)
+# CLI support for single plugin check
 if __name__ == "__main__":
-    # 模拟运行
-    print("Run `migrate_all.py` to trigger this checker.")
+    import sys
+    if len(sys.argv) > 1:
+        plugin_name = sys.argv[1]
+        extension_dir = f"gemini-ai-helpers/extensions/{plugin_name}"
+        if os.path.exists(extension_dir):
+            run_check(extension_dir)
+        else:
+            print(f"Plugin directory not found: {extension_dir}")
+            sys.exit(1)
+    else:
+        print("Usage: python3 gemini_compat_check.py <plugin_name>")
+        sys.exit(1)

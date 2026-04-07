@@ -3,3 +3,4 @@ gemini-ai-helpers/
 __pycache__/
 *.pyc
 .claude/
+.ai-session/
