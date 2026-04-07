@@ -8,13 +8,13 @@ Automated bi-weekly migration system with semantic versioning, branch-based work
 
 ```bash
 # Detect changes
-python3 detect_changes.py
+python3 -m aihelpers.detect_changes
 
-# Run migration (v2.1 with branching)
-python3 incremental_migrate_v2.py
+# Run migration
+python3 -m aihelpers.incremental_migrate_v3
 
 # Or run scheduled (bi-weekly automation)
-./scheduled_migration_v2.sh
+./scheduled_migration_v3.sh
 ```
 
 See [QUICKSTART.md](QUICKSTART.md) for detailed usage.
@@ -134,13 +134,13 @@ Run this after any changes to `extensions/*/commands/*.md` to regenerate
 the `.toml` files that Gemini CLI actually loads:
 
 ```bash
-python3 generate_toml.py
+python3 -m aihelpers.generate_toml
 ```
 
 Then validate all `.toml` files parse correctly:
 
 ```bash
-python3 validate_toml.py
+python3 -m aihelpers.validate_toml
 ```
 
 ## Architecture
