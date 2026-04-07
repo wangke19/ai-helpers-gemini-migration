@@ -237,17 +237,16 @@ def commit_changes(plugin: str) -> bool:
     """Commit changes for a single plugin."""
     print(f"\n💾 Committing changes for: {plugin}")
     try:
-        # Check if there are changes
-        result = git_run(["status", "--porcelain"], check=True)
+        # Stage plugin-specific paths (ignore errors for missing paths e.g. no commands/ dir)
+        git_run(["add", f"extensions/{plugin}"], check=False)
+        git_run(["add", f"commands/{plugin}"], check=False)
 
-        if not result.stdout.strip():
-            print("   No changes to commit")
+        # Check if anything was actually staged
+        result = git_run(["diff", "--cached", "--quiet"], check=False)
+        if result.returncode == 0:
+            print("   No changes to commit (already up to date)")
             return True
 
-        # Add changes
-        git_run(["add", f"extensions/{plugin}", f"commands/{plugin}"])
-
-        # Commit
         message = f"feat: migrate {plugin} plugin from ai-helpers\n\nUpdated from upstream ai-helpers repository"
         git_run(["commit", "-m", message])
 
