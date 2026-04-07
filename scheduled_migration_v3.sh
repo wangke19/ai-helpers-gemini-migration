@@ -44,7 +44,7 @@ echo
 
 # Step 2: Detect changes
 echo "🔍 Detecting changes..."
-python3 detect_changes.py
+python3 -m aihelpers.detect_changes
 echo
 
 # Step 3: Check if migration is needed
@@ -65,7 +65,7 @@ echo
 
 # Step 4: Run migration with approval workflow
 echo "🚀 Starting incremental migration with approval workflow..."
-python3 incremental_migrate_v3.py
+python3 -m aihelpers.incremental_migrate_v3
 MIGRATION_EXIT=$?
 
 if [ $MIGRATION_EXIT -ne 0 ]; then
