@@ -22,6 +22,7 @@ from datetime import datetime
 
 # Directories
 SOURCE_DIR = Path("ai-helpers/plugins")
+SOURCE_REPO = Path("ai-helpers")
 TARGET_DIR = Path("gemini-ai-helpers/extensions")
 COMMANDS_DIR = Path("gemini-ai-helpers/commands")
 GEMINI_REPO = Path("gemini-ai-helpers")
@@ -394,66 +395,86 @@ def create_tag_only(version: str, message: str, state: MigrationState) -> bool:
         return False
 
 
-def switch_main_to_tag(version: str) -> bool:
-    """Switch main branch to tag."""
-    print(f"\n🔄 Switching main branch to tag: {version}")
+def pull_source() -> bool:
+    """Pull latest changes from ai-helpers upstream."""
+    print(f"\n📥 Pulling latest ai-helpers...")
     try:
-        # Switch to main
-        git_run(["checkout", "main"])
-
-        # Reset main to the tag (hard reset)
-        git_run(["reset", "--hard", version])
-        print(f"✅ Main branch now points to: {version}")
-
+        result = subprocess.run(
+            ["git", "pull", "origin", "main"],
+            cwd=SOURCE_REPO,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        print(f"✅ ai-helpers updated: {result.stdout.strip().splitlines()[-1]}")
         return True
-
     except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to switch main: {e.stderr}")
+        print(f"❌ Failed to pull ai-helpers: {e.stderr}")
         return False
 
 
-def push_changes() -> bool:
-    """Push main branch and tags to remote."""
-    print(f"\n🚀 Pushing to remote...")
+def push_branch_and_open_pr(branch_name: str, version: str, migrated_count: int,
+                             source_commit: str) -> bool:
+    """Push migration branch and open a GitHub PR."""
+    print(f"\n🚀 Pushing migration branch: {branch_name}")
     try:
-        # Push main (may need force since we reset it)
-        result = git_run(["push", "origin", "main", "--force-with-lease"], check=False)
-        if result.returncode != 0:
-            print(f"⚠️  Force push with lease failed, trying regular push...")
-            git_run(["push", "origin", "main"])
-
-        # Push tags
-        git_run(["push", "origin", "--tags"])
-
-        print(f"✅ Changes pushed to remote")
-        return True
-
+        git_run(["push", "-u", "origin", branch_name])
+        print(f"✅ Branch pushed")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to push: {e.stderr}")
+        print(f"❌ Failed to push branch: {e.stderr}")
         return False
 
-
-def cleanup_migration_branch(version: str) -> bool:
-    """Delete the migration branch after successful merge."""
-    print(f"\n🧹 Cleaning up migration branch...")
+    print(f"\n📬 Opening pull request...")
+    pr_title = f"feat: migrate {migrated_count} plugin(s) from ai-helpers ({version})"
+    pr_body = (
+        f"## Migration batch {version}\n\n"
+        f"Automated migration of {migrated_count} plugin(s) from "
+        f"[ai-helpers](https://github.com/openshift-eng/ai-helpers) "
+        f"@ `{source_commit}`.\n\n"
+        f"### What changed\n"
+        f"- Claude/Anthropic references replaced with Gemini equivalents\n"
+        f"- `.md` commands regenerated as `.toml` for Gemini CLI\n\n"
+        f"### Review\n"
+        f"- [ ] Check changed extensions look correct\n"
+        f"- [ ] Verify TOML commands parse cleanly\n"
+    )
     try:
-        branch_name = f"migration-{version}"
-        git_run(["branch", "-D", branch_name])
-        print(f"✅ Deleted branch: {branch_name}")
+        result = subprocess.run(
+            ["gh", "pr", "create",
+             "--title", pr_title,
+             "--body", pr_body,
+             "--base", "main",
+             "--head", branch_name],
+            cwd=GEMINI_REPO,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        pr_url = result.stdout.strip()
+        print(f"✅ PR opened: {pr_url}")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"⚠️  Failed to delete branch: {e.stderr}")
+        print(f"❌ Failed to open PR: {e.stderr}")
+        print(f"   Branch {branch_name} is pushed — open the PR manually.")
         return False
 
 
 def main():
     print("🚀 AI Helpers Incremental Migration System v2.2")
-    print("   (with pre-switch approval)")
     print("=" * 60)
+
+    # Step 0: Pull latest ai-helpers
+    if not pull_source():
+        print("❌ Failed to update source, aborting")
+        return
+
+    # Step 1: Detect changes
+    print(f"\n🔍 Detecting changes...")
+    subprocess.run(["python3", "-m", "aihelpers.detect_changes"], check=True)
 
     # Load change detection results
     if not CHANGES_FILE.exists():
-        print("❌ Run detect_changes.py first to identify what needs migration")
+        print("❌ Change detection did not produce migration_changes.json")
         return
 
     with open(CHANGES_FILE, 'r') as f:
@@ -572,53 +593,8 @@ def main():
         print(f"\n⚠️  Tag creation failed. Migration branch preserved for review.")
         return
 
-    # Generate comprehensive report
-    report, recommendation = generate_pre_switch_report(branch_name)
-
-    # Request approval
-    if not request_approval(report, recommendation):
-        print()
-        print("=" * 60)
-        print("🛑 MIGRATION ABORTED BY USER")
-        print("=" * 60)
-        print()
-        print(f"Migration branch and tag preserved: {branch_name}")
-        print(f"Tag: {version}")
-        print()
-        print("To review the migration:")
-        print(f"  cd gemini-ai-helpers")
-        print(f"  git checkout {branch_name}")
-        print(f"  git log")
-        print()
-        print("To proceed manually later:")
-        print(f"  git checkout main")
-        print(f"  git reset --hard {version}")
-        print(f"  git push origin main --force-with-lease")
-        print(f"  git push origin --tags")
-        print()
-        return
-
-    # User approved - proceed with switching main
-    print()
-    print("=" * 60)
-    print("✅ APPROVAL GRANTED - Proceeding with main branch switch")
-    print("=" * 60)
-    print()
-
-    # Switch main to tag
-    if switch_main_to_tag(version):
-        # Push everything
-        if push_changes():
-            # Clean up migration branch
-            cleanup_migration_branch(version)
-            print(f"\n✅ Migration complete! Main branch now at tag {version}")
-        else:
-            print(f"\n⚠️  Tag created and main switched, but push failed. Manual push needed:")
-            print(f"  cd gemini-ai-helpers")
-            print(f"  git push origin main --force-with-lease")
-            print(f"  git push origin --tags")
-    else:
-        print(f"\n⚠️  Failed to switch main. Migration branch and tag preserved for review.")
+    # Push branch and open PR
+    push_branch_and_open_pr(branch_name, version, migrated_count, source_commit)
 
     print(f"\n💾 Migration state saved to: {STATE_FILE}")
 
