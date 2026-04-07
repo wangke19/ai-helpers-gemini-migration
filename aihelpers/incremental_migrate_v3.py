@@ -201,7 +201,7 @@ def migrate_plugin(plugin: str, state: MigrationState) -> bool:
         commands_path = target_path / "commands"
         if commands_path.exists():
             result = subprocess.run(
-                ["python3", "generate_toml.py", plugin],
+                ["python3", "-m", "aihelpers.generate_toml", plugin],
                 capture_output=True,
                 text=True
             )
@@ -213,7 +213,7 @@ def migrate_plugin(plugin: str, state: MigrationState) -> bool:
         # Step 5: Validate TOML files
         print(f"✅ Validating TOML files...")
         result = subprocess.run(
-            ["python3", "validate_toml.py", plugin],
+            ["python3", "-m", "aihelpers.validate_toml", plugin],
             capture_output=True,
             text=True
         )
@@ -270,7 +270,7 @@ def run_sanity_tests(plugin: str) -> bool:
 
     # Test 2: Validate TOML files
     result = subprocess.run(
-        ["python3", "validate_toml.py", plugin],
+        ["python3", "-m", "aihelpers.validate_toml", plugin],
         capture_output=True,
         text=True
     )
@@ -280,7 +280,7 @@ def run_sanity_tests(plugin: str) -> bool:
 
     # Test 3: Check for Claude/Anthropic references
     result = subprocess.run(
-        ["python3", "gemini_compat_check.py", plugin],
+        ["python3", "-m", "aihelpers.gemini_compat_check", plugin],
         capture_output=True,
         text=True
     )
@@ -303,7 +303,7 @@ def generate_pre_switch_report(branch_name: str) -> Tuple[str, str]:
     report_file = f"migration_report_{timestamp}.txt"
 
     result = subprocess.run(
-        ["python3", "generate_migration_report.py", branch_name],
+        ["python3", "-m", "aihelpers.generate_migration_report", branch_name],
         capture_output=True,
         text=True
     )
