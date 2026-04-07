@@ -1,6 +1,6 @@
 import os
 import json
-from plugin_usage_ranker import rank_plugins
+from aihelpers.plugin_usage_ranker import rank_plugins
 
 PLUGIN_ROOT = "ai-helpers/plugins"
 STATE_FILE = "migration_state.json"

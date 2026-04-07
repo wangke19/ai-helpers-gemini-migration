@@ -1,10 +1,10 @@
 import os
 import shutil
 import json
-from plugin_usage_ranker import rank_plugins
-from convert_claude_plugin import convert_plugin
-from prompt_refactor import refactor_file
-from gemini_compat_check import run_check
+from aihelpers.plugin_usage_ranker import rank_plugins
+from aihelpers.convert_claude_plugin import convert_plugin
+from aihelpers.prompt_refactor import refactor_file
+from aihelpers.gemini_compat_check import run_check
 
 PLUGIN_ROOT = "ai-helpers/plugins"
 OUTPUT_ROOT = "gemini-ai-helpers/extensions"
