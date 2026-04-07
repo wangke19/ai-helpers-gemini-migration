@@ -16,12 +16,12 @@ echo
 # Test 1: Python scripts exist and are executable
 echo "Test 1: Checking Python scripts..."
 scripts=(
-    "detect_changes.py"
-    "incremental_migrate.py"
-    "generate_toml.py"
-    "validate_toml.py"
-    "gemini_compat_check.py"
-    "migration_summary.py"
+    "aihelpers/detect_changes.py"
+    "aihelpers/incremental_migrate_v3.py"
+    "aihelpers/generate_toml.py"
+    "aihelpers/validate_toml.py"
+    "aihelpers/gemini_compat_check.py"
+    "aihelpers/migration_summary.py"
 )
 
 for script in "${scripts[@]}"; do
@@ -77,7 +77,7 @@ echo
 
 # Test 5: Test detect_changes.py
 echo "Test 5: Testing change detection..."
-if python3 detect_changes.py > /tmp/detect_test.log 2>&1; then
+if python3 -m aihelpers.detect_changes > /tmp/detect_test.log 2>&1; then
     echo "  ✅ detect_changes.py runs successfully"
     if [ -f "migration_changes.json" ]; then
         echo "  ✅ migration_changes.json created"
@@ -94,7 +94,7 @@ echo
 
 # Test 6: Test migration_summary.py
 echo "Test 6: Testing summary generation..."
-if python3 migration_summary.py > /tmp/summary_test.log 2>&1; then
+if python3 -m aihelpers.migration_summary > /tmp/summary_test.log 2>&1; then
     echo "  ✅ migration_summary.py runs successfully"
 else
     echo "  ❌ migration_summary.py failed"
@@ -106,7 +106,7 @@ echo
 # Test 7: Test generate_toml.py with a single plugin
 echo "Test 7: Testing TOML generation (single plugin)..."
 if [ -d "gemini-ai-helpers/extensions/hello-world/commands" ]; then
-    if python3 generate_toml.py hello-world > /tmp/toml_test.log 2>&1; then
+    if python3 -m aihelpers.generate_toml hello-world > /tmp/toml_test.log 2>&1; then
         echo "  ✅ generate_toml.py runs successfully"
     else
         echo "  ❌ generate_toml.py failed"
@@ -120,7 +120,7 @@ echo
 
 # Test 8: Test validate_toml.py
 echo "Test 8: Testing TOML validation..."
-if python3 validate_toml.py > /tmp/validate_test.log 2>&1; then
+if python3 -m aihelpers.validate_toml > /tmp/validate_test.log 2>&1; then
     echo "  ✅ validate_toml.py runs successfully"
 else
     echo "  ⚠️  validate_toml.py failed (may need tomli package)"
@@ -169,10 +169,10 @@ echo "=================================================="
 echo
 echo "System is ready for migration. Next steps:"
 echo "  1. Review migration queue:"
-echo "     python3 migration_summary.py"
+echo "     python3 -m aihelpers.migration_summary"
 echo
 echo "  2. Run migration:"
-echo "     python3 incremental_migrate.py"
+echo "     python3 -m aihelpers.incremental_migrate_v3"
 echo
 echo "  3. Or schedule automated migration:"
 echo "     ./scheduled_migration.sh"
