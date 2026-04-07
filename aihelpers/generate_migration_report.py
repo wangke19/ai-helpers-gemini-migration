@@ -90,7 +90,7 @@ def get_migration_stats(commits: List[Dict]) -> Dict:
 def check_toml_files() -> Dict:
     """Check TOML files validation status."""
     result = subprocess.run(
-        ["python3", "validate_toml.py"],
+        ["python3", "-m", "aihelpers.validate_toml"],
         capture_output=True,
         text=True
     )
@@ -110,7 +110,7 @@ def check_compatibility() -> Dict:
     for plugin_dir in (GEMINI_REPO / "extensions").iterdir():
         if plugin_dir.is_dir():
             result = subprocess.run(
-                ["python3", "gemini_compat_check.py", plugin_dir.name],
+                ["python3", "-m", "aihelpers.gemini_compat_check", plugin_dir.name],
                 capture_output=True,
                 text=True
             )
