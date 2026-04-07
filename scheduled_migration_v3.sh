@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-WORKSPACE_DIR="/home/kewang/wangke19/ai-migration-workspace"
+WORKSPACE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$WORKSPACE_DIR"
 
 # Set automated mode

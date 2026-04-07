@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-cd /home/kewang/wangke19/ai-migration-workspace
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 echo "=================================================="
 echo "Migration System v2.0 - Component Tests"
