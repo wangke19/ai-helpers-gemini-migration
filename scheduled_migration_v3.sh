@@ -65,7 +65,7 @@ echo
 
 # Step 4: Run migration with approval workflow
 echo "🚀 Starting incremental migration with approval workflow..."
-python3 -m aihelpers.incremental_migrate_v3
+python3 -m aihelpers.incremental_migrate
 MIGRATION_EXIT=$?
 
 if [ $MIGRATION_EXIT -ne 0 ]; then

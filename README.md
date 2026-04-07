@@ -11,7 +11,7 @@ Automated bi-weekly migration system with semantic versioning, branch-based work
 python3 -m aihelpers.detect_changes
 
 # Run migration
-python3 -m aihelpers.incremental_migrate_v3
+python3 -m aihelpers.incremental_migrate
 
 # Or run scheduled (bi-weekly automation)
 ./scheduled_migration_v3.sh

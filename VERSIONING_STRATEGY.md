@@ -98,7 +98,7 @@ v2.0.0-h0i4def  Major restructuring (June 2026)
 
 ### Automated Version Bumping
 
-The migration script (`incremental_migrate_v3.py`) automatically:
+The migration script (`incremental_migrate.py`) automatically:
 
 1. Reads `gemini-extension.json` version
 2. Bumps MINOR version (e.g., 1.0.0 → 1.1.0)
@@ -117,7 +117,7 @@ For hotfixes or MAJOR bumps, manually update before migration:
 }
 
 # Run migration (will use this version)
-python3 incremental_migrate_v3.py
+python3 -m aihelpers.incremental_migrate
 ```
 
 ## Version Checks

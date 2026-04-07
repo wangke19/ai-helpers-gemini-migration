@@ -17,7 +17,7 @@ echo
 echo "Test 1: Checking Python scripts..."
 scripts=(
     "aihelpers/detect_changes.py"
-    "aihelpers/incremental_migrate_v3.py"
+    "aihelpers/incremental_migrate.py"
     "aihelpers/generate_toml.py"
     "aihelpers/validate_toml.py"
     "aihelpers/gemini_compat_check.py"
@@ -172,7 +172,7 @@ echo "  1. Review migration queue:"
 echo "     python3 -m aihelpers.migration_summary"
 echo
 echo "  2. Run migration:"
-echo "     python3 -m aihelpers.incremental_migrate_v3"
+echo "     python3 -m aihelpers.incremental_migrate"
 echo
 echo "  3. Or schedule automated migration:"
 echo "     ./scheduled_migration_v3.sh"
