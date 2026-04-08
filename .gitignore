@@ -1,5 +1,6 @@
 ai-helpers/
 gemini-ai-helpers/
+migration.conf
 __pycache__/
 *.pyc
 .claude/

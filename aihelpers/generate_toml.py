@@ -19,8 +19,7 @@ Usage:
 import re
 import pathlib
 
-SRC = pathlib.Path("gemini-ai-helpers/extensions")
-DST = pathlib.Path("gemini-ai-helpers/commands")
+from aihelpers.config import TARGET_DIR as SRC, COMMANDS_DIR as DST
 
 
 def extract_frontmatter(content):

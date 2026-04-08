@@ -20,12 +20,8 @@ from typing import List, Dict, Optional
 from datetime import datetime
 
 
-# Directories
-SOURCE_DIR = Path("ai-helpers/plugins")
-SOURCE_REPO = Path("ai-helpers")
-TARGET_DIR = Path("gemini-ai-helpers/extensions")
-COMMANDS_DIR = Path("gemini-ai-helpers/commands")
-GEMINI_REPO = Path("gemini-ai-helpers")
+# Directories (resolved from migration.conf or env vars via aihelpers.config)
+from aihelpers.config import SOURCE_DIR, SOURCE_REPO, TARGET_DIR, COMMANDS_DIR, GEMINI_REPO
 STATE_FILE = Path("migration_state.json")
 CHANGES_FILE = Path("migration_changes.json")
 
@@ -495,7 +491,7 @@ def main():
     print()
 
     # Read current version from gemini-extension.json
-    with open("gemini-ai-helpers/gemini-extension.json", 'r') as f:
+    with open(GEMINI_REPO / "gemini-extension.json", 'r') as f:
         ext_data = json.load(f)
         current_version = ext_data.get('version', '1.0.0')
 
@@ -532,7 +528,7 @@ def main():
     # Get ai-helpers commit hash for traceability
     result = subprocess.run(
         ["git", "rev-parse", "--short", "HEAD"],
-        cwd="ai-helpers",
+        cwd=SOURCE_REPO,
         capture_output=True,
         text=True
     )

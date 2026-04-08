@@ -10,17 +10,29 @@ One command pulls the latest `ai-helpers`, detects changes, migrates all updated
 
 - Python 3.9+
 - [`gh`](https://cli.github.com/) CLI authenticated (`gh auth status`)
-- Both repos cloned locally and symlinked:
+- SSH access to GitHub (for cloning/pushing)
+
+### First-time setup
 
 ```bash
-ln -s /path/to/ai-helpers ai-helpers
-ln -s /path/to/gemini-ai-helpers gemini-ai-helpers
+# Clone this repo
+git clone git@github.com:wangke19/ai-helpers-gemini-migration.git
+cd ai-helpers-gemini-migration
+
+# Bootstrap: clones ai-helpers and gemini-ai-helpers as siblings, writes migration.conf
+./setup.sh
+
+# Install dev dependencies
+pip install -e ".[dev]"
 ```
 
-### Install dev dependencies
+`setup.sh` clones both repos into the parent directory and writes `migration.conf` with their paths. Re-running it is safe — it skips repos that already exist.
+
+To use non-default locations, set env vars instead:
 
 ```bash
-pip install -e ".[dev]"
+export AI_HELPERS_DIR=/custom/path/to/ai-helpers
+export GEMINI_REPO_DIR=/custom/path/to/gemini-ai-helpers
 ```
 
 ### Run migration
@@ -42,6 +54,7 @@ This single command:
 ```
 ai-helpers-gemini-migration/
 ├── aihelpers/                      # Python package
+│   ├── config.py                   # Path resolution (migration.conf / env vars)
 │   ├── incremental_migrate.py      # Main entry point — full pipeline
 │   ├── detect_changes.py           # MD5-based change detection
 │   ├── generate_toml.py            # .md → .toml converter for Gemini CLI
@@ -59,8 +72,11 @@ ai-helpers-gemini-migration/
 │   ├── test_generate_toml.py
 │   └── test_prompt_refactor.py
 ├── pyproject.toml
-├── scheduled_migration.sh       # Cron-friendly wrapper
-├── migration_state.json         # Runtime state (gitignored dirs)
+├── setup.sh                        # One-time bootstrap (clone repos + write migration.conf)
+├── migration.conf.example          # Config template (copy to migration.conf)
+├── migration.conf                  # Local repo paths — gitignored, written by setup.sh
+├── scheduled_migration.sh          # Cron-friendly wrapper
+├── migration_state.json            # Runtime state (gitignored)
 └── migration_changes.json          # Last change detection output
 ```
 

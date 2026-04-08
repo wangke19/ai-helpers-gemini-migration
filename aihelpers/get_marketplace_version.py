@@ -7,7 +7,8 @@ import json
 import hashlib
 from pathlib import Path
 
-marketplace_file = Path("ai-helpers/.claude-plugin/marketplace.json")
+from aihelpers.config import SOURCE_REPO
+marketplace_file = SOURCE_REPO / ".claude-plugin" / "marketplace.json"
 
 if not marketplace_file.exists():
     print("unknown")

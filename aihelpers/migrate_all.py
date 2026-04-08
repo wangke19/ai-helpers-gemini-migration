@@ -6,8 +6,9 @@ from aihelpers.convert_claude_plugin import convert_plugin
 from aihelpers.prompt_refactor import refactor_file
 from aihelpers.gemini_compat_check import run_check
 
-PLUGIN_ROOT = "ai-helpers/plugins"
-OUTPUT_ROOT = "gemini-ai-helpers/extensions"
+from aihelpers.config import SOURCE_DIR, TARGET_DIR
+PLUGIN_ROOT = str(SOURCE_DIR)
+OUTPUT_ROOT = str(TARGET_DIR)
 STATE_FILE = "migration_state.json"
 BATCH_SIZE = 2  # 🌟 核心：每次只迁移 2 个插件，保护 Token 额度
 

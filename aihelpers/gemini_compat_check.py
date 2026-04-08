@@ -1,5 +1,6 @@
 import os
 import re
+from aihelpers.config import TARGET_DIR
 
 def check_code_file(filepath):
     """扫描 Python/JS/TS 源码中的不兼容 API 调用"""
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
         plugin_name = sys.argv[1]
-        extension_dir = f"gemini-ai-helpers/extensions/{plugin_name}"
+        extension_dir = str(TARGET_DIR / plugin_name)
         if os.path.exists(extension_dir):
             run_check(extension_dir)
         else:

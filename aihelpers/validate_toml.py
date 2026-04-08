@@ -12,7 +12,7 @@ import subprocess
 import pathlib
 import sys
 
-COMMANDS_DIR = pathlib.Path("gemini-ai-helpers/commands")
+from aihelpers.config import COMMANDS_DIR
 TOML_PARSER = "/usr/local/lib/node_modules/@google/gemini-cli/node_modules/@iarna/toml"
 
 

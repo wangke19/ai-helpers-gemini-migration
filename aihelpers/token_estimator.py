@@ -2,7 +2,8 @@ import os
 import json
 from aihelpers.plugin_usage_ranker import rank_plugins
 
-PLUGIN_ROOT = "ai-helpers/plugins"
+from aihelpers.config import SOURCE_DIR
+PLUGIN_ROOT = str(SOURCE_DIR)
 STATE_FILE = "migration_state.json"
 BATCH_SIZE = 2  # 必须与 migrate_all.py 保持一致
 

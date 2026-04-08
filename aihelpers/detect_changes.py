@@ -11,8 +11,8 @@ import hashlib
 from pathlib import Path
 from typing import Dict, List, Set
 
-SOURCE_DIR = Path("ai-helpers/plugins")
-TARGET_DIR = Path("gemini-ai-helpers/extensions")
+from aihelpers.config import SOURCE_DIR, TARGET_DIR
+
 STATE_FILE = Path("migration_state.json")
 CHANGES_FILE = Path("migration_changes.json")
 

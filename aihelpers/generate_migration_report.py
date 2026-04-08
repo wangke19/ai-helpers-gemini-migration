@@ -13,7 +13,7 @@ from typing import Dict, List, Tuple
 
 
 # Directories
-GEMINI_REPO = Path("gemini-ai-helpers")
+from aihelpers.config import GEMINI_REPO
 STATE_FILE = Path("migration_state.json")
 CHANGES_FILE = Path("migration_changes.json")
 
