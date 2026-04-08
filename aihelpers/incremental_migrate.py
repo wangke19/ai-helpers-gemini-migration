@@ -229,28 +229,28 @@ def migrate_plugin(plugin: str, state: MigrationState) -> bool:
         return False
 
 
-def commit_changes(plugin: str) -> bool:
-    """Commit changes for a single plugin."""
-    print(f"\n💾 Committing changes for: {plugin}")
+def commit_changes(plugin: str) -> Optional[bool]:
+    """Commit changes for a single plugin.
+
+    Returns:
+        True  — committed successfully
+        None  — nothing to commit (no real diff)
+        False — commit error
+    """
     try:
-        # Stage plugin-specific paths (ignore errors for missing paths e.g. no commands/ dir)
         git_run(["add", f"extensions/{plugin}"], check=False)
         git_run(["add", f"commands/{plugin}"], check=False)
 
-        # Check if anything was actually staged
         result = git_run(["diff", "--cached", "--quiet"], check=False)
         if result.returncode == 0:
-            print("   No changes to commit (already up to date)")
-            return True
+            return None  # nothing staged
 
         message = f"feat: migrate {plugin} plugin from ai-helpers\n\nUpdated from upstream ai-helpers repository"
         git_run(["commit", "-m", message])
-
-        print(f"✅ Changes committed")
         return True
 
     except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to commit: {e.stderr}")
+        print(f"❌ Failed to commit {plugin}: {e.stderr}")
         return False
 
 
@@ -552,17 +552,19 @@ def main():
     migrated_count = 0
     failed_count = 0
 
+    skipped_count = 0
+
     for plugin in plugins_to_migrate:
-        # Migrate
         success = migrate_plugin(plugin, state)
 
         if success:
-            # Run sanity tests
             if run_sanity_tests(plugin):
-                # Commit
-                if commit_changes(plugin):
+                committed = commit_changes(plugin)
+                if committed is True:
                     migrated_count += 1
-                    print(f"\n✅ {plugin} fully migrated and committed")
+                    print(f"\n✅ {plugin} migrated and committed")
+                elif committed is None:
+                    skipped_count += 1  # no real diff, silently skip
                 else:
                     print(f"\n⚠️  {plugin} migrated but commit failed")
                     failed_count += 1
@@ -578,14 +580,15 @@ def main():
     print("\n" + "=" * 60)
     print("📊 Migration Summary")
     print("=" * 60)
-    print(f"  ✅ Successfully migrated: {migrated_count}")
-    print(f"  ❌ Failed:               {failed_count}")
-    print(f"  📦 Total processed:      {migrated_count + failed_count}")
+    print(f"  ✅ Committed:   {migrated_count}")
+    if skipped_count:
+        print(f"  ⏭️  No changes: {skipped_count}")
+    print(f"  ❌ Failed:     {failed_count}")
+    print(f"  📦 Total:      {len(plugins_to_migrate)}")
     print()
 
-    # Only proceed with tagging if we had successful migrations
     if migrated_count == 0:
-        print("\n⚠️  No successful migrations. Migration branch preserved for debugging.")
+        print("✅ Nothing changed — no version bump or PR needed.")
         print(f"\n💾 Migration state saved to: {STATE_FILE}")
         return
 
