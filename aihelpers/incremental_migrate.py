@@ -490,6 +490,9 @@ def main():
     print(f"  Batch size: {BATCH_SIZE} plugin(s)")
     print()
 
+    # Load state early — needed for gap_days calculation below
+    state = MigrationState()
+
     # Read current version from gemini-extension.json
     with open(GEMINI_REPO / "gemini-extension.json", 'r') as f:
         ext_data = json.load(f)
@@ -539,9 +542,6 @@ def main():
     #        c5abf42 = ai-helpers source commit
     version = f"v{new_version}-{source_commit}"
     branch_name = f"migration-{version}"
-
-    # Load state
-    state = MigrationState()
 
     # Create migration branch
     if not create_migration_branch(version):
