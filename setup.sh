@@ -41,4 +41,11 @@ echo
 echo "✅ migration.conf written:"
 cat "$PROJECT_DIR/migration.conf"
 echo
-echo "Run: python3 -m aihelpers.incremental_migrate"
+
+# Install package (upgrade pip first to support pyproject.toml editable installs)
+echo "📦 Installing dependencies..."
+pip install --upgrade pip --quiet
+pip install -e ".[dev]" --quiet
+echo "✅ Dependencies installed"
+echo
+echo "Next: python3 -m aihelpers.incremental_migrate"

@@ -19,11 +19,9 @@ One command pulls the latest `ai-helpers`, detects changes, migrates all updated
 git clone git@github.com:wangke19/ai-helpers-gemini-migration.git
 cd ai-helpers-gemini-migration
 
-# Bootstrap: clones ai-helpers and gemini-ai-helpers as siblings, writes migration.conf
+# Bootstrap: clones ai-helpers and gemini-ai-helpers as siblings,
+# writes migration.conf, and installs dependencies
 ./setup.sh
-
-# Install dev dependencies
-pip install -e ".[dev]"
 ```
 
 `setup.sh` clones both repos into the parent directory and writes `migration.conf` with their paths. Re-running it is safe — it skips repos that already exist.
