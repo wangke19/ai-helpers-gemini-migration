@@ -476,10 +476,16 @@ def main():
         changes = json.load(f)
 
     plugins_to_migrate = changes['needs_migration']
+    plugins_to_remove = changes.get('removed_plugins', [])
 
-    if not plugins_to_migrate:
+    if not plugins_to_migrate and not plugins_to_remove:
         print("✅ No plugins need migration!")
         return
+
+    if plugins_to_remove:
+        print(f"\n🗑️  Plugins removed from source (will be deleted from target):")
+        for plugin in plugins_to_remove:
+            print(f"  - {plugin}")
 
     print(f"\n📋 Plugins to migrate: {len(plugins_to_migrate)}")
     for plugin in plugins_to_migrate:
@@ -548,10 +554,31 @@ def main():
         print("❌ Failed to create migration branch, aborting")
         return
 
+    # Remove plugins that no longer exist in source
+    removed_count = 0
+    for plugin in plugins_to_remove:
+        ext_path = TARGET_DIR / plugin
+        cmd_path = COMMANDS_DIR / plugin
+        removed_something = False
+        for path in [ext_path, cmd_path]:
+            if path.exists():
+                shutil.rmtree(path)
+                removed_something = True
+        if removed_something:
+            try:
+                git_run(["add", f"extensions/{plugin}"], check=False)
+                git_run(["add", f"commands/{plugin}"], check=False)
+                result = git_run(["diff", "--cached", "--quiet"], check=False)
+                if result.returncode != 0:
+                    git_run(["commit", "-m", f"feat: remove {plugin} plugin (no longer in ai-helpers)"])
+                    print(f"✅ Removed and committed: {plugin}")
+                    removed_count += 1
+            except subprocess.CalledProcessError as e:
+                print(f"⚠️  Failed to commit removal of {plugin}: {e.stderr}")
+
     # Migrate plugins one at a time
     migrated_count = 0
     failed_count = 0
-
     skipped_count = 0
 
     for plugin in plugins_to_migrate:
@@ -580,14 +607,16 @@ def main():
     print("\n" + "=" * 60)
     print("📊 Migration Summary")
     print("=" * 60)
-    print(f"  ✅ Committed:   {migrated_count}")
+    if removed_count:
+        print(f"  🗑️  Removed:    {removed_count}")
+    print(f"  ✅ Committed:  {migrated_count}")
     if skipped_count:
         print(f"  ⏭️  No changes: {skipped_count}")
     print(f"  ❌ Failed:     {failed_count}")
-    print(f"  📦 Total:      {len(plugins_to_migrate)}")
+    print(f"  📦 Total:      {len(plugins_to_migrate) + len(plugins_to_remove)}")
     print()
 
-    if migrated_count == 0:
+    if migrated_count == 0 and removed_count == 0:
         print("✅ Nothing changed — no version bump or PR needed.")
         print(f"\n💾 Migration state saved to: {STATE_FILE}")
         return
