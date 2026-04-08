@@ -26,7 +26,7 @@ def print_summary():
 
     # Load data
     changes = load_json("migration_changes.json")
-    state = load_json("migration_state_v2.json")
+    state = load_json("migration_state.json")
 
     if not changes:
         print("❌ No change detection data. Run: python3 detect_changes.py")

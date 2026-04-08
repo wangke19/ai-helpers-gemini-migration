@@ -59,8 +59,8 @@ ai-helpers-gemini-migration/
 │   ├── test_generate_toml.py
 │   └── test_prompt_refactor.py
 ├── pyproject.toml
-├── scheduled_migration_v3.sh       # Cron-friendly wrapper
-├── migration_state_v2.json         # Runtime state (gitignored dirs)
+├── scheduled_migration.sh       # Cron-friendly wrapper
+├── migration_state.json         # Runtime state (gitignored dirs)
 └── migration_changes.json          # Last change detection output
 ```
 
@@ -121,5 +121,5 @@ GitHub PR                   Branch pushed, PR opened via gh CLI
 To run bi-weekly via cron:
 
 ```
-0 0 1,15 * * /path/to/scheduled_migration_v3.sh
+0 0 1,15 * * /path/to/scheduled_migration.sh
 ```

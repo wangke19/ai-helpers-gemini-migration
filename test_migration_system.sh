@@ -36,10 +36,10 @@ echo
 
 # Test 2: Bash scripts exist and are executable
 echo "Test 2: Checking Bash scripts..."
-if [ -x "scheduled_migration_v3.sh" ]; then
-    echo "  ✅ scheduled_migration_v3.sh exists and is executable"
+if [ -x "scheduled_migration.sh" ]; then
+    echo "  ✅ scheduled_migration.sh exists and is executable"
 else
-    echo "  ❌ scheduled_migration_v3.sh not found or not executable"
+    echo "  ❌ scheduled_migration.sh not found or not executable"
     exit 1
 fi
 echo
@@ -175,6 +175,6 @@ echo "  2. Run migration:"
 echo "     python3 -m aihelpers.incremental_migrate"
 echo
 echo "  3. Or schedule automated migration:"
-echo "     ./scheduled_migration_v3.sh"
+echo "     ./scheduled_migration.sh"
 echo
 echo "=================================================="

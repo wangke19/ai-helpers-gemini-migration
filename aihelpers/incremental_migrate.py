@@ -26,7 +26,7 @@ SOURCE_REPO = Path("ai-helpers")
 TARGET_DIR = Path("gemini-ai-helpers/extensions")
 COMMANDS_DIR = Path("gemini-ai-helpers/commands")
 GEMINI_REPO = Path("gemini-ai-helpers")
-STATE_FILE = Path("migration_state_v2.json")
+STATE_FILE = Path("migration_state.json")
 CHANGES_FILE = Path("migration_changes.json")
 
 # Migration config

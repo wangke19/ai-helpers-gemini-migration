@@ -14,7 +14,7 @@ from typing import Dict, List, Tuple
 
 # Directories
 GEMINI_REPO = Path("gemini-ai-helpers")
-STATE_FILE = Path("migration_state_v2.json")
+STATE_FILE = Path("migration_state.json")
 CHANGES_FILE = Path("migration_changes.json")
 
 

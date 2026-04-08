@@ -15,7 +15,7 @@
 # 10. Delete migration branch
 #
 # Can be scheduled via cron:
-#   0 0 1,15 * * MIGRATION_AUTOMATED=true /path/to/scheduled_migration_v3.sh
+#   0 0 1,15 * * MIGRATION_AUTOMATED=true /path/to/scheduled_migration.sh
 #   (runs on 1st and 15th of each month at midnight)
 
 set -euo pipefail
@@ -125,7 +125,7 @@ import json
 from pathlib import Path
 
 changes_file = Path('migration_changes.json')
-state_file = Path('migration_state_v2.json')
+state_file = Path('migration_state.json')
 
 if changes_file.exists():
     with open(changes_file, 'r') as f:
