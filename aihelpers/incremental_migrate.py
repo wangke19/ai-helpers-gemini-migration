@@ -378,6 +378,8 @@ def create_tag_only(version: str, message: str, state: MigrationState) -> bool:
     """Create tag on current branch without switching main yet."""
     print(f"\n🏷️  Creating tag: {version}")
     try:
+        # Delete existing tag if it exists
+        git_run(["tag", "-d", version], check=False)
         # Create annotated tag
         git_run(["tag", "-a", version, "-m", message])
         print(f"✅ Tag created: {version}")
